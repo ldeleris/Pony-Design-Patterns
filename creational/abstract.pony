@@ -21,8 +21,9 @@ class DataBaseClientFactory
 
 actor Abstract 
     new create(env: Env) =>
-    let clientMySqlFactory: DataBaseClientFactory = DataBaseClientFactory(MySqlFactory(env))
-    let clientPgSqlFactory: DataBaseClientFactory = DataBaseClientFactory(PgSqlFactory(env))
-    env.out.print("Abstract factory:")
-    clientMySqlFactory.executeQuery("SELECT * FROM users")
-    clientPgSqlFactory.executeQuery("SELECT * FROM employees")        
+        env.out.print("Abstract:")
+        let clientMySqlFactory: DataBaseClientFactory = DataBaseClientFactory(MySqlFactory(env))
+        let clientPgSqlFactory: DataBaseClientFactory = DataBaseClientFactory(PgSqlFactory(env))
+        env.out.print("Abstract factory:")
+        clientMySqlFactory.executeQuery("SELECT * FROM users")
+        clientPgSqlFactory.executeQuery("SELECT * FROM employees")        

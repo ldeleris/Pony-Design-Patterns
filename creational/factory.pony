@@ -38,6 +38,7 @@ class PgSqlClient is DataBaseClient
 
 actor Factory
     new create(env: Env) =>
+        env.out.print("Factory:")
         let clientMySql: DataBaseClient = MySqlClient(env)
         let clientPgSql: DataBaseClient = PgSqlClient(env)
         env.out.print("Factory:")
