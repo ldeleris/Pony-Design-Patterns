@@ -23,7 +23,7 @@ class Circle
         var pi: F64 = if precise then precisePi() else basicPi end
         pi * radius * radius
 
-actor Lazy
+class Lazy
     new create(env: Env) =>
         env.out.print("Lazy")
         let obj: Circle = Circle
