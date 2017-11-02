@@ -1,3 +1,6 @@
+patterns-docs
+docs
+mkdocs.yml
 *.exp
 *.exp
 *.ilk

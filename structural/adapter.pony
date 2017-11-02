@@ -1,3 +1,4 @@
+
 class Logger
     let env: Env
     new create(env': Env) => env = env'

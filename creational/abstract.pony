@@ -1,4 +1,8 @@
+
 trait DataBaseConnectorFactory
+"""
+# Design Pattern abstract factory
+"""
     fun connect(): SimpleConnection
 
 class MySqlFactory is DataBaseConnectorFactory

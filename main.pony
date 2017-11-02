@@ -14,4 +14,15 @@ actor Main
 
     structural.Adapter(env)
     structural.Decorator(env)
-    
+    structural.Bridge(env)
+
+    let house: structural.HouseOneDoor = structural.HouseOneDoor(structural.HouseDoorKey)
+    env.out.print(house.enter())
+    env.out.print(house.leave())
+
+//can't access a private type from another package
+//  let door: structural._Door = structural._Door(structural.HouseDoorKey)
+
+    structural.Composite(env)
+    structural.Facade(env)
+    structural.Flyweight(env)
