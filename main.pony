@@ -1,5 +1,7 @@
 use creational = "creational"
 use structural = "structural"
+use behavioral = "behavioral"
+
 actor Main
   new create(env: Env) =>
     env.out.print("Hello, world!")
@@ -26,3 +28,11 @@ actor Main
     structural.Composite(env)
     structural.Facade(env)
     structural.Flyweight(env)
+    structural.Proxy(env)
+
+    behavioral.ValueObject(env)
+    behavioral.NullObject(env)
+    behavioral.Strategy(env)
+    behavioral.Command(env)
+    behavioral.ChainOfResponsability(env)
+    behavioral.Interpreter(env)
