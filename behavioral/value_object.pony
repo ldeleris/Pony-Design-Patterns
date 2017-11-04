@@ -15,6 +15,10 @@ class Date
   // (Hashable & Equatable[Date]) for == et !=
   fun hash(): U64 =>
     HashByteSeq.hash(day.string() + month + year.string())
+        var h: U64 = 17 + HashByteSeq.hash(day.string())
+        h = (h * 31) + HashByteSeq.hash(month)
+        h = (h * 13) + HashByteSeq.hash(year.string())
+  
   fun eq(that: box->Date): Bool =>
     hash() == that.hash()
   fun ne(that: box->Date): Bool =>
