@@ -14,7 +14,7 @@ class FileReaderReal is FileReader
     file_name = file_name'
     let f = {(file_name': String): (None | String) =>
       var s: String iso = recover String(0) end
-      try
+      try 
         let path = FilePath(_env.root as AmbientAuth, file_name')?
         match OpenFile(path)
         | let file: File =>
