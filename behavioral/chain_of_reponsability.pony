@@ -18,17 +18,17 @@ trait Dispenser
       let left: U64 = money.amount % amount()
       env.out.print("Dispensing " + notes.string() + " note/s of " + amount().string())
       if left > 0 then 
-        match next()
-        | None => env.out.print("")
-        | let n: Dispenser => n.dispense(env, Money(left))
-        end
+        _dispense(env, next(), Money(left))
       end
     else
-      match next()
-      | None => env.out.print("")
-      | let n: Dispenser => n.dispense(env, money)
-      end
+      _dispense(env, next(), money)
     end
+
+  fun _dispense(env: Env, dispenser: OptDispenser, money: Money) =>
+    match dispenser
+    | None => env.out.print("")
+    | let n: Dispenser => n.dispense(env, money)
+    end 
 
 class Dispenser50 is Dispenser
   let d: OptDispenser
@@ -71,8 +71,6 @@ class ATM
     else
       _dispenser.dispense(_env, money)
     end
-
-
 
 actor ChainOfResponsability
   new create(env: Env) =>
