@@ -20,46 +20,46 @@ class Num is Expr
     n.string()
 
 class Add is Expr
-  let right: Expr
-  let left: Expr
+  let right: {():Expr} val
+  let left: {():Expr} val
 
-  new create(r: Expr, l: Expr) =>
+  new create(r: {():Expr} val, l: {():Expr} val) =>
     right = r 
     left = l 
   
   fun interpret(): U64 ? =>
-    left.interpret()? + right.interpret()?
+    left().interpret()? + right().interpret()?
 
   fun string(): String iso^ =>
-    ("Add(" + left.string() + ", " + right.string() + ")").string()
+    ("Add(" + left().string() + ", " + right().string() + ")").string()
 
 class Subtract is Expr
-  let right: Expr
-  let left: Expr
+  let right: {():Expr} val
+  let left: {():Expr} val
 
-  new create(r: Expr, l: Expr) =>
+  new create(r: {():Expr} val, l: {():Expr} val) =>
     right = r 
     left = l 
   
   fun interpret(): U64 ? =>
-    left.interpret()? - right.interpret()?
+    left().interpret()? - right().interpret()?
 
   fun string(): String iso^ =>
-    ("Add(" + left.string() + ", " + right.string() + ")").string()
+    ("Add(" + left().string() + ", " + right().string() + ")").string()
 
 class Multiply is Expr
-  let right: Expr
-  let left: Expr
+  let right: {():Expr} val
+  let left: {():Expr} val
 
-  new create(r: Expr, l: Expr) =>
+  new create(r: {():Expr} val, l: {():Expr} val) =>
     right = r 
     left = l 
   
   fun interpret(): U64 ? =>
-    left.interpret()? * right.interpret()?
+    left().interpret()? * right().interpret()?
 
   fun string(): String iso^ =>
-    ("Add(" + left.string() + ", " + right.string() + ")").string()
+    ("Add(" + left().string() + ", " + right().string() + ")").string()
 
 class Leaf is Expr
   fun interpret(): U64 ? => 
@@ -69,34 +69,39 @@ class Leaf is Expr
     "Leaf".string()
 
 primitive Expression
-  fun apply(operator: String, left: Expr, right: Expr): (None | Expr) =>
+  fun apply(operator: String, left: {():Expr} val, right: {():Expr} val): (None | {():Expr}) =>
     match operator
-    | "+" => Add(right, left)
-    | "-" => Subtract(right, left)
-    | "*" => Multiply(right, left)
+    | "+" => { (): Expr => Add(right, left) }
+    | "-" => { (): Expr => Subtract(right, left) }
+    | "*" => { (): Expr => Multiply(right, left) }
     | let s: String => 
-      try
-        Num(StringParser.parse_u64(s)?)
-      else
-        None
-      end
+      //try
+        { (): Expr => try Num(StringParser.parse_u64(s)?) else Num(0) end }
+      //else
+      //  None
+      //end
     else
       None
     end
 
 primitive RPNParser
-  fun parse(expression: String): Expr ? =>
+  fun parse(expression: String): {():Expr} =>
     let tokenizer: List[String] = List[String].from(expression.split(" "))
-    tokenizer.fold[List[Expr]]({ (result: List[Expr]!, token: this->String!): List[Expr] =>
+
+    {(): Expr => Add({(): Expr => Num(1)}, {(): Expr => Num(1)})}
+    /*
+    tokenizer.fold[List[{():Expr}]]({ (result: List[{():Expr} val], token: this->String!): List[{():Expr}] =>
       //let result: List[Expr] = result'.clone()
-      let left: Expr = try result.pop()? else Leaf end
-      let right: Expr = try result.pop()? else Leaf end
-      let item = Expression(token.string(), left, right)
+      
+      let left: {():Expr} val = try result.pop()? else { (): Expr => Leaf } end
+      let right: {():Expr} val = try result.pop()? else { (): Expr => Leaf } end
+      let item: (None val | {():Expr} val) = recover val Expression(token.string(), left, right) end
       match item 
-      | let e: Expr => result.push(e)
+      | let e: {():Expr} val => result.push(e)
       end
       result
-    } , List[Expr]()).pop()? //.shift()?
+    } , List[{():Expr}]()).pop()? //.shift()?
+    */
 
 primitive RPNInterpreter
   fun interpret(expression: Expr): U64 ?=>
@@ -105,6 +110,13 @@ primitive RPNInterpreter
 actor Interpreter
   new create(env: Env) =>
     env.out.print("Interpreter:")
+    let expr: {():Expr} ref = RPNParser.parse("1")
+    try
+    let result = RPNInterpreter.interpret(expr())?
+    env.out.print(expr().string())
+    env.out.print(result.string())
+    end
+    /*
     let expr = [ 
       "1 2 + 3 * 9 10 + -"
       "1 2 3 4 5 * * - +"
@@ -112,15 +124,19 @@ actor Interpreter
       "-"
       "+ 1 2"
       ]
+
     for e in expr.values() do
       try
-        let expression = RPNParser.parse(e)?
-        let result = RPNInterpreter.interpret(expression)?
-        env.out.print(expression.string())
-        env.out.print("The result of '" + e + "' is: " + result.string())
+        let e': {(): Expr} val =  e
+        let expression = RPNParser.parse(e')?
+        let result = RPNInterpreter.interpret(expression())?
+        env.out.print(expression().string())
+        env.out.print("The result of '" + e' + "' is: " + result.string())
       else
-        env.out.print("'" + e + "'" + " is invalid.")
+        let e': {(): Expr} val =  e
+        env.out.print("'" + e' + "'" + " is invalid.")
       end
     end
+    */
 
   
