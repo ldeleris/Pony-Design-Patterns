@@ -37,3 +37,4 @@ actor Main
     behavioral.ChainOfResponsability(env)
     behavioral.Interpreter(env)
     behavioral.MediatorDesign(env)
+    behavioral.MementoDesign(env)
