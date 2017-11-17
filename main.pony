@@ -39,3 +39,4 @@ actor Main
     behavioral.MediatorDesign(env)
     behavioral.MementoDesign(env)
     behavioral.ObserverDesign(env)
+    behavioral.StateDesign(env)
