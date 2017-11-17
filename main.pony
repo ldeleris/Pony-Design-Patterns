@@ -38,3 +38,4 @@ actor Main
     behavioral.Interpreter(env)
     behavioral.MediatorDesign(env)
     behavioral.MementoDesign(env)
+    behavioral.ObserverDesign(env)
