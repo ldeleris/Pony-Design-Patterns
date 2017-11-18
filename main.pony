@@ -41,3 +41,4 @@ actor Main
     behavioral.ObserverDesign(env)
     behavioral.StateDesign(env)
     behavioral.TemplateMethod(env)
+    behavioral.VisitorDesign(env)
