@@ -40,3 +40,4 @@ actor Main
     behavioral.MementoDesign(env)
     behavioral.ObserverDesign(env)
     behavioral.StateDesign(env)
+    behavioral.TemplateMethod(env)
