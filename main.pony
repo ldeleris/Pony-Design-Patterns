@@ -1,6 +1,7 @@
 use creational = "creational"
 use structural = "structural"
 use behavioral = "behavioral"
+use functional = "functional"
 
 actor Main
   new create(env: Env) =>
@@ -42,3 +43,5 @@ actor Main
     behavioral.StateDesign(env)
     behavioral.TemplateMethod(env)
     behavioral.VisitorDesign(env)
+
+    functional.MonoidDesign(env)
