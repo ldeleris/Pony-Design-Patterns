@@ -45,3 +45,4 @@ actor Main
     behavioral.VisitorDesign(env)
 
     functional.MonoidDesign(env)
+    functional.FunctorsDesign(env)
